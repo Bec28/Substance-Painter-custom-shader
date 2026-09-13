@@ -2,19 +2,20 @@
 
 # Version: 1.0
 
-# Task content
+## Custom Shader for Character Customization
 
-Make a custom shader to better adapt the customization workflow.
+To improve our character customization and texture-production workflow, I developed a custom GLSL shader for Adobe Substance 3D Painter. The goal was to allow artists to **preview and adjust customizable materials directly inside Substance Painter**, without repeatedly exporting textures to Unity, testing the result, and going back to make corrections.
 
-# **Idea**
+The idea was inspired by Alena Dubrovina’s GDC talk, *The Art and Technology Behind Creating Characters for Baldur’s Gate 3*, where she presented Larian Studios’ approach to character customization. I adapted the concept to fit our own production pipeline, where a similar technique could be applied to character clothing, props, and environments.
 
-I used Adobe Substance Painter’s [shader library and shader API](https://helpx.adobe.com/substance-3d-painter/scripting-and-development/api-reference/shader-api.html) as my guide, wrote the shader with GLSL with some special functions, and a GDC talk inspired my idea: [The art and technology behind creating characters for Baldur's Gate 3](https://youtu.be/CVa4HJzHb_o?t=845). Inside the talk, Alena Dubrovina showed their approach to a customization system. This technique is useful in the texture production pipeline for some of our character clothes, props, and environments. 
+I used Adobe Substance 3D Painter’s shader library and Shader API as references. Since there is relatively little documentation and few tutorials on developing custom Substance Painter shaders, I started by studying the structure of Painter’s default PBR shader and built my own functionality into it.
 
-**The custom shader allows 3d artists to visualize the final result and make changes at the same time without having to export maps into Unity back and forth, which saves hell lots of time and improves the performance.**
+One of the main technical challenges was developing a system that could identify and replace specific colors within a texture. I created a custom function that separates the source and target colors into their individual RGB channels, converts each channel into a 0–1 range, and compares the values to determine how closely the colors match. The resulting values are then combined to generate a mask that controls the material customization.
 
-**Process**: I started not knowing anything about shading language, with not a lot of tutorials about creating SP shader the only resource is its own shader, I used the structure of its default PBR shader and added my code within it.   
-The hardest process is to figure out the logic behind it, and how the shader compares the color of two different textures — I eventually found that creating a function: splitting both textures into separate RGB (red, green, blue) channels and making it a float from 0-1, then comparing it then add three results together.  
-The second hardest is using SP’s syntax, they are different from ordinary GLSL and it can be confusing sometimes.
+Another challenge was adapting to Substance Painter’s shader-specific syntax, which differs from standard GLSL and required me to learn how Painter handles shader inputs, functions, and material data.
+
+The final shader allows artists to **visualize the customized material while working on the textures**, eliminating the need to constantly export maps to Unity and iterate between the two applications. This makes the workflow faster, reduces repetitive testing, and gives artists more immediate visual feedback when creating customizable assets.
+
 
 # **Usage guideline:** 
 
@@ -23,7 +24,8 @@ The second hardest is using SP’s syntax, they are different from ordinary GLSL
   * Go to your **texture set setting**, under channels make sure your **user0** is set to ColourMask, if not double-click to change the name.  
   * Under Layers ![][image1] change Base Color to ColourMask (click on the left-most arrow)  
   * Create a fill layer, disable every channel except ColourMask (colour)   
-  * ![][image2]![][image3]  
+  *<img width="368" height="317" alt="R1_1" src="https://github.com/user-attachments/assets/c4117bd2-6a67-4bb1-bd7a-ef9b91e064f2" />
+  *<img width="363" height="493" alt="R1_2" src="https://github.com/user-attachments/assets/68d7cc9b-d758-48bc-9d4c-2f99fba31697" />
   * Choose a color from the shader setting (make sure the color is the default color, if not click restore default) or use this table
 
 | Fabric\_Primary  FFBC00 |
@@ -48,18 +50,22 @@ The second hardest is using SP’s syntax, they are different from ordinary GLSL
   * Put the shader file to Documents\\Adobe\\Adobe Substance 3D Painter\\assets\\shaders  
   * Restart SP  
   * Under shader settings select custom shader  
-  * ![][image4]
+  * <img width="376" height="147" alt="R2_1" src="https://github.com/user-attachments/assets/5e537f7c-baab-4fe8-b98e-d5c6d3fed7f0" />
+
 
 * ## What should the base color look like?
 
   * When using this technique, the base color will look very light, it only needs a little bit of color with black and white  
-  * ![][image5]![][image6]  
+  * <img width="1307" height="720" alt="R3_1" src="https://github.com/user-attachments/assets/b5cfad00-960e-499a-b9d8-b0e347d4c614" />
+  * <img width="1304" height="713" alt="R3_2" src="https://github.com/user-attachments/assets/0d1f155d-6aa3-4a98-afa6-8e804cb50a53" />
+
     
 
 # Result
 
 Custom color picker and slider  
-![][image7]
+<img width="1485" height="1002" alt="Result" src="https://github.com/user-attachments/assets/1d04e016-51a4-4d9a-9c90-29eb188b4b44" />
+
 
 # Links
 
