@@ -22,7 +22,7 @@ The final shader allows artists to **visualize the customized material while wor
 * ## How to assign a colour mask?
 
   * Go to your **texture set setting**, under channels make sure your **user0** is set to ColourMask, if not double-click to change the name.  
-  * Under Layers ![][image1] change Base Color to ColourMask (click on the left-most arrow)  
+  * Under Layers, change Base Color to ColourMask (click on the left-most arrow)  
   * Create a fill layer, disable every channel except ColourMask (colour)   
   *<img width="368" height="317" alt="R1_1" src="https://github.com/user-attachments/assets/c4117bd2-6a67-4bb1-bd7a-ef9b91e064f2" />
   *<img width="363" height="493" alt="R1_2" src="https://github.com/user-attachments/assets/68d7cc9b-d758-48bc-9d4c-2f99fba31697" />
